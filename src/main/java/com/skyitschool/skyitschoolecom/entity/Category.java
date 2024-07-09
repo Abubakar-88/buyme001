@@ -19,29 +19,9 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     private List<Product> products;
-//
-//    @ManyToMany(mappedBy = "categories")
-//    private Set<Brand> brands = new HashSet<>();
-
-//    public Set<Brand> getBrands() {
-//        return brands;
-//    }
-//
-//    public void setBrands(Set<Brand> brands) {
-//        this.brands = brands;
-//    }
 
     private boolean enabled;
 
-
-//
-//    public List<Product> getProducts() {
-//        return products;
-//    }
-//
-//    public void setProducts(List<Product> products) {
-//        this.products = products;
-//    }
 
     public Category() {
     }

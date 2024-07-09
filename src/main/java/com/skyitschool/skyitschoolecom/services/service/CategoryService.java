@@ -1,5 +1,6 @@
 package com.skyitschool.skyitschoolecom.services.service;
 
+import com.skyitschool.skyitschoolecom.dto.CategoryDTO;
 import com.skyitschool.skyitschoolecom.exception.CategoryNotFoundException;
 import com.skyitschool.skyitschoolecom.entity.Category;
 import org.springframework.data.domain.Page;
@@ -9,7 +10,7 @@ import java.util.List;
 
 
 public interface CategoryService {
-    Page<Category> getAllCategories(Pageable pageable);
+    Page<CategoryDTO> getAllCategories(Pageable pageable);
     Category getCategoryById(Integer id) throws CategoryNotFoundException;
     Category saveCategory(Category category);
     void deleteCategory(Integer id);

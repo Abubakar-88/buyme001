@@ -1,5 +1,7 @@
 package com.skyitschool.skyitschoolecom.controller;
 
+
+import com.skyitschool.skyitschoolecom.dto.CategoryDTO;
 import com.skyitschool.skyitschoolecom.exception.CategoryNotFoundException;
 import com.skyitschool.skyitschoolecom.services.service.BrandService;
 import com.skyitschool.skyitschoolecom.services.service.CategoryService;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,14 +26,16 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<Page<Category>> getAllCategories(
+    public ResponseEntity<Page<CategoryDTO>> getAllCategories(
             @RequestParam(defaultValue = "1") int pageNumber,
-            @RequestParam(defaultValue = "5") int size
-            ) {
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDir
+    ) {
+        Sort.Direction direction = Sort.Direction.fromString(sortDir);
+        Pageable pageable = PageRequest.of(pageNumber - 1, size, Sort.by(direction, sortBy));
 
-        Pageable pageable = PageRequest.of(pageNumber -1, size);
-
-        Page<Category> categoryPage = categoryService.getAllCategories(pageable);
+        Page<CategoryDTO> categoryPage = categoryService.getAllCategories(pageable);
 
         if (categoryPage.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -38,7 +43,6 @@ public class CategoryController {
             return ResponseEntity.ok(categoryPage);
         }
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Integer id) throws CategoryNotFoundException {
